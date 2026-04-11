@@ -9,7 +9,7 @@ const navLinks = [
 ]
 
 export default function Layout() {
-  const { activeSession } = useApp()
+  const { activeSession, isLoading } = useApp()
   const navigate = useNavigate()
 
   return (
@@ -47,11 +47,15 @@ export default function Layout() {
       </header>
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
-        <Outlet />
+        {isLoading ? (
+          <div className="card p-8 text-center text-gray-500">Indlaeser data...</div>
+        ) : (
+          <Outlet />
+        )}
       </main>
 
       <footer className="text-center text-xs text-gray-400 py-4 border-t border-gray-200">
-        Familie Spil — data gemt lokalt i din browser
+        Familie Spil — data gemt i database
       </footer>
     </div>
   )
