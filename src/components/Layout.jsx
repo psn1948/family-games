@@ -9,7 +9,7 @@ const navLinks = [
 ]
 
 export default function Layout() {
-  const { activeSession, isLoading } = useApp()
+  const { activeSession, isLoading, syncError } = useApp()
   const navigate = useNavigate()
 
   return (
@@ -47,8 +47,13 @@ export default function Layout() {
       </header>
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
+        {syncError && (
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
+            {syncError}
+          </div>
+        )}
         {isLoading ? (
-          <div className="card p-8 text-center text-gray-500">Indlaeser data...</div>
+          <div className="card p-8 text-center text-gray-500">Indlaeser data fra database...</div>
         ) : (
           <Outlet />
         )}

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
+import { supabase, isSupabaseConfigured } from '../lib/supabase'
 
 const AppContext = createContext(null)
 
@@ -32,11 +32,31 @@ export function AppProvider({ children }) {
   const [games, setGames] = useState([])
   const [sessions, setSessions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [syncError, setSyncError] = useState('')
+
+  function ensureDbConfigured() {
+    if (!isSupabaseConfigured || !supabase) {
+      setSyncError('Database ikke konfigureret. Udfyld VITE_SUPABASE_URL og VITE_SUPABASE_ANON_KEY i .env.local.')
+      return false
+    }
+    return true
+  }
+
+  function setDbError(prefix, error) {
+    const message = error?.message ? `${prefix}: ${error.message}` : prefix
+    setSyncError(message)
+    console.error(prefix, error)
+  }
 
   useEffect(() => {
     let cancelled = false
 
     async function loadAll() {
+      if (!ensureDbConfigured()) {
+        setIsLoading(false)
+        return
+      }
+
       const [membersRes, gamesRes, sessionsRes] = await Promise.all([
         supabase.from('members').select('*').order('name', { ascending: true }),
         supabase.from('games').select('*').order('name', { ascending: true }),
@@ -45,9 +65,9 @@ export function AppProvider({ children }) {
 
       if (cancelled) return
 
-      if (membersRes.error) console.error('Failed loading members', membersRes.error)
-      if (gamesRes.error) console.error('Failed loading games', gamesRes.error)
-      if (sessionsRes.error) console.error('Failed loading sessions', sessionsRes.error)
+      if (membersRes.error) setDbError('Kunne ikke hente spillere', membersRes.error)
+      if (gamesRes.error) setDbError('Kunne ikke hente spil', gamesRes.error)
+      if (sessionsRes.error) setDbError('Kunne ikke hente sessioner', sessionsRes.error)
 
       setMembers(membersRes.data ?? [])
       setGames(gamesRes.data ?? [])
@@ -64,45 +84,53 @@ export function AppProvider({ children }) {
 
   // --- Members ---
   async function addMember(member) {
+    if (!ensureDbConfigured()) return
     setMembers(prev => [...prev, member])
     const { error } = await supabase.from('members').insert(member)
-    if (error) console.error('Failed adding member', error)
+    if (error) setDbError('Kunne ikke oprette spiller', error)
   }
   async function updateMember(id, updates) {
+    if (!ensureDbConfigured()) return
     setMembers(prev => prev.map(m => (m.id === id ? { ...m, ...updates } : m)))
     const { error } = await supabase.from('members').update(updates).eq('id', id)
-    if (error) console.error('Failed updating member', error)
+    if (error) setDbError('Kunne ikke opdatere spiller', error)
   }
   async function deleteMember(id) {
+    if (!ensureDbConfigured()) return
     setMembers(prev => prev.filter(m => m.id !== id))
     const { error } = await supabase.from('members').delete().eq('id', id)
-    if (error) console.error('Failed deleting member', error)
+    if (error) setDbError('Kunne ikke slette spiller', error)
   }
 
   // --- Games ---
   async function addGame(game) {
+    if (!ensureDbConfigured()) return
     setGames(prev => [...prev, game])
     const { error } = await supabase.from('games').insert(game)
-    if (error) console.error('Failed adding game', error)
+    if (error) setDbError('Kunne ikke oprette spil', error)
   }
   async function updateGame(id, updates) {
+    if (!ensureDbConfigured()) return
     setGames(prev => prev.map(g => (g.id === id ? { ...g, ...updates } : g)))
     const { error } = await supabase.from('games').update(updates).eq('id', id)
-    if (error) console.error('Failed updating game', error)
+    if (error) setDbError('Kunne ikke opdatere spil', error)
   }
   async function deleteGame(id) {
+    if (!ensureDbConfigured()) return
     setGames(prev => prev.filter(g => g.id !== id))
     const { error } = await supabase.from('games').delete().eq('id', id)
-    if (error) console.error('Failed deleting game', error)
+    if (error) setDbError('Kunne ikke slette spil', error)
   }
 
   // --- Sessions ---
   async function addSession(session) {
+    if (!ensureDbConfigured()) return
     setSessions(prev => [...prev, session])
     const { error } = await supabase.from('sessions').insert(clientSessionToDb(session))
-    if (error) console.error('Failed adding session', error)
+    if (error) setDbError('Kunne ikke oprette session', error)
   }
   async function updateSession(id, updates) {
+    if (!ensureDbConfigured()) return
     setSessions(prev => prev.map(s => (s.id === id ? { ...s, ...updates } : s)))
     const dbUpdates = {}
     if (updates.gameId !== undefined) dbUpdates.game_id = updates.gameId
@@ -112,9 +140,10 @@ export function AppProvider({ children }) {
     if (updates.endedAt !== undefined) dbUpdates.ended_at = updates.endedAt
     if (updates.status !== undefined) dbUpdates.status = updates.status
     const { error } = await supabase.from('sessions').update(dbUpdates).eq('id', id)
-    if (error) console.error('Failed updating session', error)
+    if (error) setDbError('Kunne ikke opdatere session', error)
   }
   async function addRound(sessionId, round) {
+    if (!ensureDbConfigured()) return
     let nextRounds = []
     setSessions(prev =>
       prev.map(s => {
@@ -124,9 +153,10 @@ export function AppProvider({ children }) {
       }),
     )
     const { error } = await supabase.from('sessions').update({ rounds: nextRounds }).eq('id', sessionId)
-    if (error) console.error('Failed adding round', error)
+    if (error) setDbError('Kunne ikke tilfoeje runde', error)
   }
   async function updateRound(sessionId, roundId, scores) {
+    if (!ensureDbConfigured()) return
     let nextRounds = []
     setSessions(prev =>
       prev.map(s => {
@@ -141,9 +171,10 @@ export function AppProvider({ children }) {
       }),
     )
     const { error } = await supabase.from('sessions').update({ rounds: nextRounds }).eq('id', sessionId)
-    if (error) console.error('Failed updating round', error)
+    if (error) setDbError('Kunne ikke opdatere runde', error)
   }
   async function deleteRound(sessionId, roundId) {
+    if (!ensureDbConfigured()) return
     let nextRounds = []
     setSessions(prev =>
       prev.map(s => {
@@ -153,9 +184,10 @@ export function AppProvider({ children }) {
       }),
     )
     const { error } = await supabase.from('sessions').update({ rounds: nextRounds }).eq('id', sessionId)
-    if (error) console.error('Failed deleting round', error)
+    if (error) setDbError('Kunne ikke slette runde', error)
   }
   async function finishSession(id) {
+    if (!ensureDbConfigured()) return
     const endedAt = new Date().toISOString()
     setSessions(prev =>
       prev.map(s =>
@@ -163,12 +195,13 @@ export function AppProvider({ children }) {
       ),
     )
     const { error } = await supabase.from('sessions').update({ status: 'completed', ended_at: endedAt }).eq('id', id)
-    if (error) console.error('Failed finishing session', error)
+    if (error) setDbError('Kunne ikke afslutte session', error)
   }
   async function deleteSession(id) {
+    if (!ensureDbConfigured()) return
     setSessions(prev => prev.filter(s => s.id !== id))
     const { error } = await supabase.from('sessions').delete().eq('id', id)
-    if (error) console.error('Failed deleting session', error)
+    if (error) setDbError('Kunne ikke slette session', error)
   }
 
   const activeSession = sessions.find(s => s.status === 'active') ?? null
@@ -181,6 +214,7 @@ export function AppProvider({ children }) {
         sessions, addSession, updateSession, addRound, updateRound, deleteRound, finishSession, deleteSession,
         activeSession,
         isLoading,
+        syncError,
       }}
     >
       {children}
