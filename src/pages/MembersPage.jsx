@@ -55,20 +55,20 @@ export default function MembersPage() {
                   onCancel={() => setEditingId(null)}
                 />
               ) : (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <div
                     className="w-10 h-10 rounded-full flex-shrink-0 shadow"
                     style={{ backgroundColor: member.color }}
                   />
-                  <span className="font-semibold text-gray-800 flex-1">{member.name}</span>
+                  <span className="font-semibold text-gray-800 flex-1 min-w-0 truncate">{member.name}</span>
                   <button
-                    className="btn-secondary btn-sm"
+                    className="btn-secondary btn-sm flex-shrink-0"
                     onClick={() => setEditingId(member.id)}
                   >
                     Rediger
                   </button>
                   <button
-                    className="btn-danger btn-sm"
+                    className="btn-danger btn-sm flex-shrink-0"
                     onClick={() => {
                       if (confirm(`Fjern ${member.name}?`)) deleteMember(member.id)
                     }}

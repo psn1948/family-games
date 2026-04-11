@@ -22,15 +22,15 @@ export function ScoreTable({ session, members, readonly = false, onAddRound, onD
       <table className="min-w-full text-sm">
         <thead>
           <tr className="bg-gray-50 border-b border-gray-200">
-            <th className="px-4 py-3 text-left font-semibold text-gray-600 w-16">Runde</th>
+            <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-gray-600 w-12 sm:w-16">Runde</th>
             {participants.map(p => (
-              <th key={p.id} className="px-4 py-3 text-center font-semibold text-gray-700">
-                <div className="flex flex-col items-center gap-1">
+              <th key={p.id} className="px-2 sm:px-4 py-2 sm:py-3 text-center font-semibold text-gray-700">
+                <div className="flex flex-col items-center gap-0.5 sm:gap-1">
                   <span
-                    className="w-5 h-5 rounded-full inline-block shadow-sm"
+                    className="w-4 h-4 sm:w-5 sm:h-5 rounded-full inline-block shadow-sm"
                     style={{ backgroundColor: p.color }}
                   />
-                  {p.name}
+                  <span className="text-xs truncate max-w-[60px] sm:max-w-full">{p.name}</span>
                 </div>
               </th>
             ))}
@@ -40,11 +40,11 @@ export function ScoreTable({ session, members, readonly = false, onAddRound, onD
         <tbody>
           {session.rounds.map((round, idx) => (
             <tr key={round.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-              <td className="px-4 py-2.5 font-medium text-gray-500">{idx + 1}</td>
+              <td className="px-2 sm:px-4 py-2 sm:py-2.5 font-medium text-gray-500 text-xs sm:text-sm">{idx + 1}</td>
               {participants.map(p => {
                 const score = round.scores.find(s => s.memberId === p.id)
                 return (
-                  <td key={p.id} className="px-4 py-2.5 text-center font-mono">
+                  <td key={p.id} className="px-2 sm:px-4 py-2 sm:py-2.5 text-center font-mono text-xs sm:text-sm">
                     {score?.score ?? '—'}
                   </td>
                 )
@@ -65,9 +65,9 @@ export function ScoreTable({ session, members, readonly = false, onAddRound, onD
         </tbody>
         <tfoot>
           <tr className="bg-indigo-50 border-t-2 border-indigo-200">
-            <td className="px-4 py-3 font-bold text-indigo-700">Total</td>
+            <td className="px-2 sm:px-4 py-2 sm:py-3 font-bold text-indigo-700 text-xs sm:text-sm">Total</td>
             {totals.map(t => (
-              <td key={t.memberId} className="px-4 py-3 text-center font-bold text-indigo-700 font-mono">
+              <td key={t.memberId} className="px-2 sm:px-4 py-2 sm:py-3 text-center font-bold text-indigo-700 font-mono text-xs sm:text-sm">
                 {t.total}
               </td>
             ))}

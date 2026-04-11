@@ -63,14 +63,14 @@ export default function NewSessionPage() {
 
   return (
     <div className="space-y-6 max-w-lg mx-auto">
-      <h1 className="page-title">Start New Game</h1>
+      <h1 className="page-title">Start nyt spil</h1>
 
       {/* Step indicator */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         {[1, 2].map(n => (
-          <div key={n} className="flex items-center gap-3">
+          <div key={n} className="flex items-center gap-2 sm:gap-3">
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-colors ${
+              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold border-2 transition-colors ${
                 step >= n
                   ? 'bg-indigo-600 border-indigo-600 text-white'
                   : 'border-gray-300 text-gray-400'
@@ -78,10 +78,10 @@ export default function NewSessionPage() {
             >
               {n}
             </div>
-            <span className={`text-sm font-medium ${step >= n ? 'text-indigo-700' : 'text-gray-400'}`}>
+            <span className={`text-xs sm:text-sm font-medium ${step >= n ? 'text-indigo-700' : 'text-gray-400'}`}>
               {n === 1 ? 'Vælg spil' : 'Vælg spillere'}
             </span>
-            {n < 2 && <span className="text-gray-300">→</span>}
+            {n < 2 && <span className="hidden sm:inline text-gray-300">→</span>}
           </div>
         ))}
       </div>

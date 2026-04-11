@@ -15,16 +15,16 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-indigo-700 text-white shadow-md">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <span className="text-xl font-bold tracking-tight">🎲 Familie Spil</span>
-          <nav className="flex items-center gap-1">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+          <span className="text-lg sm:text-xl font-bold tracking-tight flex-shrink-0">🎲 Familie Spil</span>
+          <nav className="flex items-center gap-0.5 overflow-x-auto">
             {navLinks.map(({ to, label, end }) => (
               <NavLink
                 key={to}
                 to={to}
                 end={end}
                 className={({ isActive }) =>
-                  `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  `px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                     isActive
                       ? 'bg-white text-indigo-700'
                       : 'text-indigo-100 hover:bg-indigo-600'
@@ -46,7 +46,7 @@ export default function Layout() {
         )}
       </header>
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {syncError && (
           <div className="mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
             {syncError}

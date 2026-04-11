@@ -57,13 +57,13 @@ export default function GamesPage() {
               ) : (
                 <div>
                   <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h3 className="font-semibold text-gray-800">{game.name}</h3>
+                    <div className="min-w-0">
+                      <h3 className="font-semibold text-gray-800 truncate">{game.name}</h3>
                       {game.description && (
                         <p className="text-sm text-gray-500 mt-0.5">{game.description}</p>
                       )}
                     </div>
-                    <div className="flex gap-2 flex-shrink-0">
+                    <div className="flex gap-1 sm:gap-2 flex-shrink-0">
                       <button
                         className="btn-secondary btn-sm"
                         onClick={() => setEditingId(game.id)}

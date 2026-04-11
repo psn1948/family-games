@@ -48,7 +48,7 @@ export default function SessionPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h1 className="page-title">{game?.name ?? 'Ukendt spil'}</h1>

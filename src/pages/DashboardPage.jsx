@@ -18,15 +18,15 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <div className="text-center py-4">
-        <h1 className="text-3xl font-bold text-gray-900 mb-1">🎲 Familie Spil</h1>
-        <p className="text-gray-500">Hold styr på point til familiens spilleaftener</p>
+      <div className="text-center py-2 sm:py-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">🎲 Familie Spil</h1>
+        <p className="text-sm sm:text-base text-gray-500">Hold styr på point til familiens spilleaftener</p>
       </div>
 
       {/* Active session banner */}
       {activeSession ? (
         <div
-          className="card p-5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-0 cursor-pointer hover:opacity-90 transition-opacity"
+          className="card p-4 sm:p-5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-0 cursor-pointer hover:opacity-90 transition-opacity"
           onClick={() => navigate(`/sessions/${activeSession.id}`)}
         >
           <div className="flex items-center justify-between flex-wrap gap-3">
@@ -61,17 +61,17 @@ export default function DashboardPage() {
       )}
 
       {/* Quick stats */}
-      <div className="grid grid-cols-3 gap-4 text-center">
-        <div className="card p-4">
-          <p className="text-2xl font-bold text-indigo-600">{members.length}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 text-center">
+        <div className="card p-3 sm:p-4">
+          <p className="text-xl sm:text-2xl font-bold text-indigo-600">{members.length}</p>
           <p className="text-xs text-gray-500 mt-1">Familiemedlemmer</p>
         </div>
-        <div className="card p-4">
-          <p className="text-2xl font-bold text-indigo-600">{games.length}</p>
+        <div className="card p-3 sm:p-4">
+          <p className="text-xl sm:text-2xl font-bold text-indigo-600">{games.length}</p>
           <p className="text-xs text-gray-500 mt-1">Spil</p>
         </div>
-        <div className="card p-4">
-          <p className="text-2xl font-bold text-indigo-600">
+        <div className="card p-3 sm:p-4 col-span-2 sm:col-span-1">
+          <p className="text-xl sm:text-2xl font-bold text-indigo-600">
             {sessions.filter(s => s.status === 'completed').length}
           </p>
           <p className="text-xs text-gray-500 mt-1">Spillede sessioner</p>
@@ -132,13 +132,13 @@ export default function DashboardPage() {
 
       {/* Quick links */}
       <div className="grid grid-cols-2 gap-3">
-        <Link to="/members" className="card p-4 hover:bg-indigo-50 transition-colors group text-center">
+        <Link to="/members" className="card p-3 sm:p-4 hover:bg-indigo-50 transition-colors group text-center">
           <p className="text-2xl mb-1">👨‍👩‍👧‍👦</p>
-          <p className="text-sm font-medium text-gray-700 group-hover:text-indigo-700">Administrer spillere</p>
+          <p className="text-xs sm:text-sm font-medium text-gray-700 group-hover:text-indigo-700">Administrer spillere</p>
         </Link>
-        <Link to="/games" className="card p-4 hover:bg-indigo-50 transition-colors group text-center">
+        <Link to="/games" className="card p-3 sm:p-4 hover:bg-indigo-50 transition-colors group text-center">
           <p className="text-2xl mb-1">🃏</p>
-          <p className="text-sm font-medium text-gray-700 group-hover:text-indigo-700">Administrer spil</p>
+          <p className="text-xs sm:text-sm font-medium text-gray-700 group-hover:text-indigo-700">Administrer spil</p>
         </Link>
       </div>
     </div>
