@@ -9,7 +9,7 @@ const navLinks = [
 ]
 
 export default function Layout() {
-  const { activeSession, isLoading, syncError } = useApp()
+  const { activeSession, isLoading, syncError, user, logout } = useApp()
   const navigate = useNavigate()
 
   return (
@@ -34,6 +34,12 @@ export default function Layout() {
                 {label}
               </NavLink>
             ))}
+            <button
+              onClick={logout}
+              className="px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-indigo-100 hover:bg-indigo-600 transition-colors whitespace-nowrap ml-1"
+            >
+              Log ud
+            </button>
           </nav>
         </div>
         {activeSession && (

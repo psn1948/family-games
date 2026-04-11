@@ -33,6 +33,38 @@ export function AppProvider({ children }) {
   const [sessions, setSessions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [syncError, setSyncError] = useState('')
+  const [user, setUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
+  const [authError, setAuthError] = useState('')
+
+  // --- Auth ---
+  useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      setAuthLoading(false)
+      return
+    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null)
+      setAuthLoading(false)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+  // Map username → email (e.g. "Per" → "per@familygames.local")
+  async function login(username, password) {
+    if (!isSupabaseConfigured || !supabase) return 'Database ikke konfigureret.'
+    const email = `${username.toLowerCase()}@familygames.local`
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    return error ? error.message : null
+  }
+
+  async function logout() {
+    if (!isSupabaseConfigured || !supabase) return
+    await supabase.auth.signOut()
+  }
 
   function ensureDbConfigured() {
     if (!isSupabaseConfigured || !supabase) {
@@ -215,6 +247,7 @@ export function AppProvider({ children }) {
         activeSession,
         isLoading,
         syncError,
+        user, authLoading, authError, login, logout,
       }}
     >
       {children}
