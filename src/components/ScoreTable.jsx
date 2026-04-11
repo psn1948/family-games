@@ -14,7 +14,7 @@ export function ScoreTable({ session, members, readonly = false, onAddRound, onD
   }))
 
   if (session.rounds.length === 0 && readonly) {
-    return <p className="text-gray-400 text-sm">No rounds recorded.</p>
+    return <p className="text-gray-400 text-sm">Ingen runder registreret.</p>
   }
 
   return (
@@ -22,7 +22,7 @@ export function ScoreTable({ session, members, readonly = false, onAddRound, onD
       <table className="min-w-full text-sm">
         <thead>
           <tr className="bg-gray-50 border-b border-gray-200">
-            <th className="px-4 py-3 text-left font-semibold text-gray-600 w-16">Round</th>
+            <th className="px-4 py-3 text-left font-semibold text-gray-600 w-16">Runde</th>
             {participants.map(p => (
               <th key={p.id} className="px-4 py-3 text-center font-semibold text-gray-700">
                 <div className="flex flex-col items-center gap-1">
@@ -53,7 +53,7 @@ export function ScoreTable({ session, members, readonly = false, onAddRound, onD
                 <td className="px-3 py-2.5 text-center">
                   <button
                     className="text-red-400 hover:text-red-600 text-xs"
-                    title="Delete round"
+                    title="Slet runde"
                     onClick={() => onDeleteRound(round.id)}
                   >
                     ✕
@@ -95,7 +95,7 @@ export function AddRoundForm({ participants, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <h3 className="section-title">Add Round {}</h3>
+      <h3 className="section-title">Tilføj runde</h3>
       <div className="grid gap-3 sm:grid-cols-2">
         {participants.map(p => (
           <div key={p.id} className="flex items-center gap-3">
@@ -118,8 +118,8 @@ export function AddRoundForm({ participants, onSave, onCancel }) {
         ))}
       </div>
       <div className="flex gap-2 justify-end">
-        <button type="button" className="btn-secondary btn-sm" onClick={onCancel}>Cancel</button>
-        <button type="submit" className="btn-primary btn-sm">Save Round</button>
+        <button type="button" className="btn-secondary btn-sm" onClick={onCancel}>Annuller</button>
+        <button type="submit" className="btn-primary btn-sm">Gem runde</button>
       </div>
     </form>
   )

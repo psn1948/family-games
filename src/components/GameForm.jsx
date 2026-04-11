@@ -9,7 +9,7 @@ export default function GameForm({ initial, onSave, onCancel }) {
     e.preventDefault()
     const trimmed = name.trim()
     if (!trimmed) {
-      setError('Game name is required.')
+      setError('Spilnavn er påkrævet.')
       return
     }
     onSave({ name: trimmed, description: description.trim() })
@@ -18,36 +18,36 @@ export default function GameForm({ initial, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="label" htmlFor="game-name">Game Name</label>
+        <label className="label" htmlFor="game-name">Spilnavn</label>
         <input
           id="game-name"
           className="input"
           value={name}
           onChange={e => { setName(e.target.value); setError('') }}
-          placeholder="e.g. Uno"
+          placeholder="f.eks. Uno"
           autoFocus
         />
         {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
       </div>
       <div>
-        <label className="label" htmlFor="game-desc">Description <span className="text-gray-400 font-normal">(optional)</span></label>
+        <label className="label" htmlFor="game-desc">Beskrivelse <span className="text-gray-400 font-normal">(valgfri)</span></label>
         <textarea
           id="game-desc"
           className="input resize-none"
           rows={2}
           value={description}
           onChange={e => setDescription(e.target.value)}
-          placeholder="Short description or rules note…"
+          placeholder="Kort beskrivelse eller regelnote…"
         />
       </div>
       <div className="flex gap-2 justify-end pt-1">
         {onCancel && (
           <button type="button" className="btn-secondary btn-sm" onClick={onCancel}>
-            Cancel
+            Annuller
           </button>
         )}
         <button type="submit" className="btn-primary btn-sm">
-          {initial ? 'Save Changes' : 'Add Game'}
+          {initial ? 'Gem ændringer' : 'Tilføj spil'}
         </button>
       </div>
     </form>

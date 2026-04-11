@@ -36,13 +36,13 @@ export default function NewSessionPage() {
   if (activeSession) {
     return (
       <div className="space-y-4">
-        <h1 className="page-title">Start New Game</h1>
+        <h1 className="page-title">Start nyt spil</h1>
         <div className="card p-6 text-center space-y-4">
           <p className="text-gray-600">
-            There is already an active game in progress. Finish it before starting a new one.
+            Der er allerede et aktivt spil i gang. Afslut det før du starter et nyt.
           </p>
           <Link to={`/sessions/${activeSession.id}`} className="btn-primary inline-block">
-            Continue Active Game
+            Fortsæt aktivt spil
           </Link>
         </div>
       </div>
@@ -52,10 +52,10 @@ export default function NewSessionPage() {
   if (games.length === 0 || members.length === 0) {
     return (
       <div className="space-y-4">
-        <h1 className="page-title">Start New Game</h1>
+        <h1 className="page-title">Start nyt spil</h1>
         <div className="card p-6 text-center space-y-3 text-gray-500">
-          {games.length === 0 && <p>You need at least one <Link to="/games" className="text-indigo-600 underline">game</Link> to get started.</p>}
-          {members.length === 0 && <p>You need at least one <Link to="/members" className="text-indigo-600 underline">family member</Link> to get started.</p>}
+          {games.length === 0 && <p>Du skal have mindst ét <Link to="/games" className="text-indigo-600 underline">spil</Link> for at komme i gang.</p>}
+          {members.length === 0 && <p>Du skal have mindst ét <Link to="/members" className="text-indigo-600 underline">familiemedlem</Link> for at komme i gang.</p>}
         </div>
       </div>
     )
@@ -79,7 +79,7 @@ export default function NewSessionPage() {
               {n}
             </div>
             <span className={`text-sm font-medium ${step >= n ? 'text-indigo-700' : 'text-gray-400'}`}>
-              {n === 1 ? 'Pick a game' : 'Select players'}
+              {n === 1 ? 'Vælg spil' : 'Vælg spillere'}
             </span>
             {n < 2 && <span className="text-gray-300">→</span>}
           </div>
@@ -89,7 +89,7 @@ export default function NewSessionPage() {
       {/* Step 1: Pick game */}
       {step === 1 && (
         <div className="card p-5 space-y-4">
-          <h2 className="section-title">Which game are you playing?</h2>
+          <h2 className="section-title">Hvilket spil spiller I?</h2>
           <div className="grid gap-2">
             {games.map(game => (
               <button
@@ -115,7 +115,7 @@ export default function NewSessionPage() {
               disabled={!selectedGameId}
               onClick={() => setStep(2)}
             >
-              Next →
+              Næste →
             </button>
           </div>
         </div>
@@ -130,9 +130,9 @@ export default function NewSessionPage() {
               className="text-indigo-600 text-sm hover:underline"
               onClick={() => setStep(1)}
             >
-              ← Back
+              ← Tilbage
             </button>
-            <h2 className="section-title">Who's playing {selectedGame?.name}?</h2>
+            <h2 className="section-title">Hvem spiller {selectedGame?.name}?</h2>
           </div>
           <div className="grid gap-2">
             {members.map(member => {
@@ -159,7 +159,7 @@ export default function NewSessionPage() {
             })}
           </div>
           {selectedMemberIds.length > 0 && (
-            <p className="text-sm text-gray-500">{selectedMemberIds.length} player{selectedMemberIds.length > 1 ? 's' : ''} selected</p>
+            <p className="text-sm text-gray-500">{selectedMemberIds.length} spiller{selectedMemberIds.length > 1 ? 'e' : ''} valgt</p>
           )}
           <div className="flex justify-end">
             <button
@@ -167,7 +167,7 @@ export default function NewSessionPage() {
               disabled={selectedMemberIds.length < 1}
               onClick={handleStart}
             >
-              Start Game 🎲
+              Start spil 🎲
             </button>
           </div>
         </div>

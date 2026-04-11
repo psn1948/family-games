@@ -21,17 +21,17 @@ export default function MembersPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="page-title">Family Members</h1>
+        <h1 className="page-title">Familiemedlemmer</h1>
         {!showAdd && (
           <button className="btn-primary btn-sm" onClick={() => setShowAdd(true)}>
-            + Add Member
+            + Tilføj spiller
           </button>
         )}
       </div>
 
       {showAdd && (
         <div className="card p-5">
-          <h2 className="section-title mb-4">New Member</h2>
+          <h2 className="section-title mb-4">Ny spiller</h2>
           <MemberForm
             onSave={handleAdd}
             onCancel={() => setShowAdd(false)}
@@ -41,8 +41,8 @@ export default function MembersPage() {
 
       {members.length === 0 && !showAdd ? (
         <div className="card p-8 text-center text-gray-400">
-          <p className="text-lg mb-2">No family members yet.</p>
-          <p className="text-sm">Add your first member to get started.</p>
+          <p className="text-lg mb-2">Ingen familiemedlemmer endnu.</p>
+          <p className="text-sm">Tilføj dit første familiemedlem for at komme i gang.</p>
         </div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
@@ -65,15 +65,15 @@ export default function MembersPage() {
                     className="btn-secondary btn-sm"
                     onClick={() => setEditingId(member.id)}
                   >
-                    Edit
+                    Rediger
                   </button>
                   <button
                     className="btn-danger btn-sm"
                     onClick={() => {
-                      if (confirm(`Remove ${member.name}?`)) deleteMember(member.id)
+                      if (confirm(`Fjern ${member.name}?`)) deleteMember(member.id)
                     }}
                   >
-                    Delete
+                    Slet
                   </button>
                 </div>
               )}

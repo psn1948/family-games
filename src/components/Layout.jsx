@@ -2,10 +2,10 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 const navLinks = [
-  { to: '/', label: 'Dashboard', end: true },
-  { to: '/members', label: 'Members' },
-  { to: '/games', label: 'Games' },
-  { to: '/history', label: 'History' },
+  { to: '/', label: 'Oversigt', end: true },
+  { to: '/members', label: 'Spillere' },
+  { to: '/games', label: 'Spil' },
+  { to: '/history', label: 'Historik' },
 ]
 
 export default function Layout() {
@@ -16,7 +16,7 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col">
       <header className="bg-indigo-700 text-white shadow-md">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <span className="text-xl font-bold tracking-tight">🎲 Family Games</span>
+          <span className="text-xl font-bold tracking-tight">🎲 Familie Spil</span>
           <nav className="flex items-center gap-1">
             {navLinks.map(({ to, label, end }) => (
               <NavLink
@@ -41,7 +41,7 @@ export default function Layout() {
             className="bg-indigo-900 text-indigo-100 text-xs text-center py-1 cursor-pointer hover:bg-indigo-800 transition-colors"
             onClick={() => navigate(`/sessions/${activeSession.id}`)}
           >
-            ▶ Active game in progress — tap to continue
+            ▶ Spil i gang — tryk for at fortsætte
           </div>
         )}
       </header>
@@ -51,7 +51,7 @@ export default function Layout() {
       </main>
 
       <footer className="text-center text-xs text-gray-400 py-4 border-t border-gray-200">
-        Family Games — data stored locally in your browser
+        Familie Spil — data gemt lokalt i din browser
       </footer>
     </div>
   )

@@ -21,17 +21,17 @@ export default function GamesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="page-title">Games</h1>
+        <h1 className="page-title">Spil</h1>
         {!showAdd && (
           <button className="btn-primary btn-sm" onClick={() => setShowAdd(true)}>
-            + Add Game
+            + Tilføj spil
           </button>
         )}
       </div>
 
       {showAdd && (
         <div className="card p-5">
-          <h2 className="section-title mb-4">New Game</h2>
+          <h2 className="section-title mb-4">Nyt spil</h2>
           <GameForm
             onSave={handleAdd}
             onCancel={() => setShowAdd(false)}
@@ -41,8 +41,8 @@ export default function GamesPage() {
 
       {games.length === 0 && !showAdd ? (
         <div className="card p-8 text-center text-gray-400">
-          <p className="text-lg mb-2">No games yet.</p>
-          <p className="text-sm">Add your first game to get started.</p>
+          <p className="text-lg mb-2">Ingen spil endnu.</p>
+          <p className="text-sm">Tilføj dit første spil for at komme i gang.</p>
         </div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
@@ -68,15 +68,15 @@ export default function GamesPage() {
                         className="btn-secondary btn-sm"
                         onClick={() => setEditingId(game.id)}
                       >
-                        Edit
+                        Rediger
                       </button>
                       <button
                         className="btn-danger btn-sm"
                         onClick={() => {
-                          if (confirm(`Remove "${game.name}"?`)) deleteGame(game.id)
+                          if (confirm(`Fjern "${game.name}"?`)) deleteGame(game.id)
                         }}
                       >
-                        Delete
+                        Slet
                       </button>
                     </div>
                   </div>

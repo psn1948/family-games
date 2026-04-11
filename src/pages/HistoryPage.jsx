@@ -11,10 +11,10 @@ export default function HistoryPage() {
   if (completed.length === 0) {
     return (
       <div className="space-y-6">
-        <h1 className="page-title">History</h1>
+        <h1 className="page-title">Historik</h1>
         <div className="card p-8 text-center text-gray-400 space-y-2">
-          <p className="text-lg">No finished games yet.</p>
-          <p className="text-sm">Complete a game session to see it here.</p>
+          <p className="text-lg">Ingen afsluttede spil endnu.</p>
+          <p className="text-sm">Afslut en spilsession for at se den her.</p>
         </div>
       </div>
     )
@@ -22,7 +22,7 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="page-title">History</h1>
+      <h1 className="page-title">Historik</h1>
       <div className="space-y-3">
         {completed.map(session => {
           const game = games.find(g => g.id === session.gameId)
@@ -47,10 +47,10 @@ export default function HistoryPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors">
-                    {game?.name ?? 'Unknown Game'}
+                    {game?.name ?? 'Ukendt spil'}
                   </span>
                   <span className="text-xs text-gray-400">
-                    {session.rounds.length} round{session.rounds.length !== 1 ? 's' : ''}
+                    {session.rounds.length} runde{session.rounds.length !== 1 ? 'r' : ''}
                   </span>
                 </div>
                 <p className="text-xs text-gray-400 mt-0.5">
@@ -70,7 +70,7 @@ export default function HistoryPage() {
               </div>
               {winner && (
                 <div className="text-right">
-                  <p className="text-xs text-gray-500 font-medium">Top score</p>
+                  <p className="text-xs text-gray-500 font-medium">Højeste point</p>
                   <div className="flex items-center gap-2 justify-end mt-0.5">
                     <span
                       className="w-5 h-5 rounded-full shadow-sm"

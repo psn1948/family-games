@@ -14,8 +14,8 @@ export default function SessionPage() {
   if (!session) {
     return (
       <div className="card p-8 text-center text-gray-400 space-y-2">
-        <p className="text-lg">Session not found.</p>
-        <Link to="/" className="text-indigo-600 underline text-sm">Go home</Link>
+        <p className="text-lg">Session ikke fundet.</p>
+        <Link to="/" className="text-indigo-600 underline text-sm">Gå hjem</Link>
       </div>
     )
   }
@@ -30,13 +30,13 @@ export default function SessionPage() {
   }
 
   function handleFinish() {
-    if (confirm('Mark this game as finished?')) {
+    if (confirm('Markér dette spil som afsluttet?')) {
       finishSession(session.id)
     }
   }
 
   function handleDelete() {
-    if (confirm('Delete this session permanently?')) {
+    if (confirm('Slet denne session permanent?')) {
       deleteSession(session.id)
       navigate('/history')
     }
@@ -51,7 +51,7 @@ export default function SessionPage() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="page-title">{game?.name ?? 'Unknown Game'}</h1>
+            <h1 className="page-title">{game?.name ?? 'Ukendt spil'}</h1>
             <span
               className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
                 isActive
@@ -59,12 +59,12 @@ export default function SessionPage() {
                   : 'bg-gray-200 text-gray-600'
               }`}
             >
-              {isActive ? 'Active' : 'Completed'}
+              {isActive ? 'Aktiv' : 'Afsluttet'}
             </span>
           </div>
           <p className="text-sm text-gray-500">
-            Started {startDate}
-            {endDate && ` · Finished ${endDate}`}
+            Startet {startDate}
+            {endDate && ` · Afsluttet ${endDate}`}
           </p>
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -75,15 +75,15 @@ export default function SessionPage() {
                 onClick={() => setShowAddRound(true)}
                 disabled={showAddRound}
               >
-                + Add Round
+                + Tilføj runde
               </button>
               <button className="btn-success btn-sm" onClick={handleFinish}>
-                Finish Game ✓
+                Afslut spil ✓
               </button>
             </>
           )}
           <button className="btn-danger btn-sm" onClick={handleDelete}>
-            Delete
+            Slet
           </button>
         </div>
       </div>
@@ -115,10 +115,10 @@ export default function SessionPage() {
       {/* Score table */}
       {session.rounds.length === 0 && !showAddRound ? (
         <div className="card p-8 text-center text-gray-400 space-y-2">
-          <p>No rounds yet.</p>
+          <p>Ingen runder endnu.</p>
           {isActive && (
             <button className="btn-primary btn-sm mx-auto" onClick={() => setShowAddRound(true)}>
-              + Add First Round
+              + Tilføj første runde
             </button>
           )}
         </div>
@@ -134,7 +134,7 @@ export default function SessionPage() {
       {!isActive && (
         <div className="text-center">
           <Link to="/history" className="text-indigo-600 underline text-sm">
-            ← Back to history
+            ← Tilbage til historik
           </Link>
         </div>
       )}

@@ -14,7 +14,7 @@ export default function MemberForm({ initial, onSave, onCancel }) {
     e.preventDefault()
     const trimmed = name.trim()
     if (!trimmed) {
-      setError('Name is required.')
+      setError('Navn er påkrævet.')
       return
     }
     onSave({ name: trimmed, color })
@@ -23,19 +23,19 @@ export default function MemberForm({ initial, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="label" htmlFor="member-name">Name</label>
+        <label className="label" htmlFor="member-name">Navn</label>
         <input
           id="member-name"
           className="input"
           value={name}
           onChange={e => { setName(e.target.value); setError('') }}
-          placeholder="e.g. Alice"
+          placeholder="f.eks. Alice"
           autoFocus
         />
         {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
       </div>
       <div>
-        <label className="label">Color</label>
+        <label className="label">Farve</label>
         <div className="flex gap-2 flex-wrap">
           {COLORS.map(c => (
             <button
@@ -56,11 +56,11 @@ export default function MemberForm({ initial, onSave, onCancel }) {
       <div className="flex gap-2 justify-end pt-1">
         {onCancel && (
           <button type="button" className="btn-secondary btn-sm" onClick={onCancel}>
-            Cancel
+            Annuller
           </button>
         )}
         <button type="submit" className="btn-primary btn-sm">
-          {initial ? 'Save Changes' : 'Add Member'}
+          {initial ? 'Gem ændringer' : 'Tilføj spiller'}
         </button>
       </div>
     </form>
