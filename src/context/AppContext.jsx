@@ -229,6 +229,16 @@ export function AppProvider({ children }) {
     const { error } = await supabase.from('sessions').update({ status: 'completed', ended_at: endedAt }).eq('id', id)
     if (error) setDbError('Kunne ikke afslutte session', error)
   }
+  async function reopenSession(id) {
+    if (!ensureDbConfigured()) return
+    setSessions(prev =>
+      prev.map(s =>
+        s.id === id ? { ...s, status: 'active', endedAt: null } : s,
+      ),
+    )
+    const { error } = await supabase.from('sessions').update({ status: 'active', ended_at: null }).eq('id', id)
+    if (error) setDbError('Kunne ikke genoptage session', error)
+  }
   async function deleteSession(id) {
     if (!ensureDbConfigured()) return
     setSessions(prev => prev.filter(s => s.id !== id))
@@ -243,7 +253,7 @@ export function AppProvider({ children }) {
       value={{
         members, addMember, updateMember, deleteMember,
         games, addGame, updateGame, deleteGame,
-        sessions, addSession, updateSession, addRound, updateRound, deleteRound, finishSession, deleteSession,
+        sessions, addSession, updateSession, addRound, updateRound, deleteRound, finishSession, reopenSession, deleteSession,
         activeSessions,
         isLoading,
         syncError,
