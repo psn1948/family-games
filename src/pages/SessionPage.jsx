@@ -6,7 +6,7 @@ import { ScoreTable, AddRoundForm } from '../components/ScoreTable'
 export default function SessionPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { sessions, games, members, addRound, deleteRound, finishSession, deleteSession } = useApp()
+  const { sessions, games, members, addRound, deleteRound, finishSession, reopenSession, deleteSession } = useApp()
 
   const session = sessions.find(s => s.id === id)
   const [showAddRound, setShowAddRound] = useState(false)
@@ -32,6 +32,12 @@ export default function SessionPage() {
   function handleFinish() {
     if (confirm('Markér dette spil som afsluttet?')) {
       finishSession(session.id)
+    }
+  }
+
+  function handleReopen() {
+    if (confirm('Genoptag dette spil og tilføj flere runder?')) {
+      reopenSession(session.id)
     }
   }
 
@@ -68,7 +74,7 @@ export default function SessionPage() {
           </p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          {isActive && (
+          {isActive ? (
             <>
               <button
                 className="btn-primary btn-sm"
@@ -81,6 +87,10 @@ export default function SessionPage() {
                 Afslut spil ✓
               </button>
             </>
+          ) : (
+            <button className="btn-secondary btn-sm" onClick={handleReopen}>
+              ↩ Genoptag spil
+            </button>
           )}
           <button className="btn-danger btn-sm" onClick={handleDelete}>
             Slet
