@@ -236,7 +236,7 @@ export function AppProvider({ children }) {
     if (error) setDbError('Kunne ikke slette session', error)
   }
 
-  const activeSession = sessions.find(s => s.status === 'active') ?? null
+  const activeSessions = sessions.filter(s => s.status === 'active')
 
   return (
     <AppContext.Provider
@@ -244,7 +244,7 @@ export function AppProvider({ children }) {
         members, addMember, updateMember, deleteMember,
         games, addGame, updateGame, deleteGame,
         sessions, addSession, updateSession, addRound, updateRound, deleteRound, finishSession, deleteSession,
-        activeSession,
+        activeSessions,
         isLoading,
         syncError,
         user, authLoading, authError, login, logout,

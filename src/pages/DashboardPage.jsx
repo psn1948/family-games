@@ -2,18 +2,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 export default function DashboardPage() {
-  const { sessions, games, members, activeSession } = useApp()
+  const { sessions, games, members, activeSessions } = useApp()
   const navigate = useNavigate()
 
   const recentCompleted = [...sessions]
     .filter(s => s.status === 'completed')
     .sort((a, b) => new Date(b.endedAt) - new Date(a.endedAt))
     .slice(0, 5)
-
-  const activeGame = activeSession ? games.find(g => g.id === activeSession.gameId) : null
-  const activePlayers = activeSession
-    ? members.filter(m => activeSession.participantIds.includes(m.id))
-    : []
 
   return (
     <div className="space-y-8">
@@ -23,33 +18,48 @@ export default function DashboardPage() {
         <p className="text-sm sm:text-base text-gray-500">Hold styr på point til familiens spilleaftener</p>
       </div>
 
-      {/* Active session banner */}
-      {activeSession ? (
-        <div
-          className="card p-4 sm:p-5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-0 cursor-pointer hover:opacity-90 transition-opacity"
-          onClick={() => navigate(`/sessions/${activeSession.id}`)}
-        >
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <div>
-              <p className="text-indigo-200 text-sm font-medium">Aktivt spil</p>
-              <h2 className="text-xl font-bold mt-0.5">{activeGame?.name ?? 'Ukendt'}</h2>
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {activePlayers.map(p => (
-                  <span
-                    key={p.id}
-                    className="text-xs px-2 py-0.5 rounded-full font-medium"
-                    style={{ backgroundColor: `${p.color}cc`, color: '#fff' }}
-                  >
-                    {p.name}
-                  </span>
-                ))}
-              </div>
-              <p className="text-indigo-200 text-xs mt-2">
-                {activeSession.rounds.length} runde{activeSession.rounds.length !== 1 ? 'r' : ''} spillet
-              </p>
-            </div>
-            <span className="text-4xl">▶</span>
+      {/* Active sessions */}
+      {activeSessions.length > 0 ? (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="section-title">Aktive spil</h2>
+            <Link to="/sessions/new" className="text-sm text-indigo-600 hover:underline">
+              + Nyt spil
+            </Link>
           </div>
+          {activeSessions.map(activeSession => {
+            const activeGame = games.find(g => g.id === activeSession.gameId)
+            const activePlayers = members.filter(m => activeSession.participantIds.includes(m.id))
+            return (
+              <div
+                key={activeSession.id}
+                className="card p-4 sm:p-5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-0 cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => navigate(`/sessions/${activeSession.id}`)}
+              >
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div>
+                    <p className="text-indigo-200 text-sm font-medium">Aktivt spil</p>
+                    <h2 className="text-xl font-bold mt-0.5">{activeGame?.name ?? 'Ukendt'}</h2>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {activePlayers.map(p => (
+                        <span
+                          key={p.id}
+                          className="text-xs px-2 py-0.5 rounded-full font-medium"
+                          style={{ backgroundColor: `${p.color}cc`, color: '#fff' }}
+                        >
+                          {p.name}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-indigo-200 text-xs mt-2">
+                      {activeSession.rounds.length} runde{activeSession.rounds.length !== 1 ? 'r' : ''} spillet
+                    </p>
+                  </div>
+                  <span className="text-4xl">▶</span>
+                </div>
+              </div>
+            )
+          })}
         </div>
       ) : (
         <div className="card p-5 text-center space-y-3">

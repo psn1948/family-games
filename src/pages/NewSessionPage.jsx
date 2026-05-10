@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext'
 import { newId } from '../utils/id'
 
 export default function NewSessionPage() {
-  const { games, members, addSession, activeSession } = useApp()
+  const { games, members, addSession } = useApp()
   const navigate = useNavigate()
 
   const [step, setStep] = useState(1)
@@ -31,22 +31,6 @@ export default function NewSessionPage() {
     }
     addSession(session)
     navigate(`/sessions/${session.id}`)
-  }
-
-  if (activeSession) {
-    return (
-      <div className="space-y-4">
-        <h1 className="page-title">Start nyt spil</h1>
-        <div className="card p-6 text-center space-y-4">
-          <p className="text-gray-600">
-            Der er allerede et aktivt spil i gang. Afslut det før du starter et nyt.
-          </p>
-          <Link to={`/sessions/${activeSession.id}`} className="btn-primary inline-block">
-            Fortsæt aktivt spil
-          </Link>
-        </div>
-      </div>
-    )
   }
 
   if (games.length === 0 || members.length === 0) {
